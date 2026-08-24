@@ -215,6 +215,16 @@
   box-shadow: var(--panel-shadow);
   }
 
+  .bg-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+    object-fit: cover;
+  }
+
   .intro h1 {
     font-family: "Courier New", Courier, monospace;
     font-size: 24px;
@@ -497,6 +507,9 @@
   <div class="entry-screen" role="button" tabindex="0" aria-label="Click to enter and play music">
     <p class="entry-prompt">[ ENTER ]</p>
   </div>
+
+  <video autoplay loop muted playsinline class="bg-video">
+  <source src="assets/background.webm" type="video/webm">
 
   <div class="layout">
 
