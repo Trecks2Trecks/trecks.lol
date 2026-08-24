@@ -1,2 +1,660 @@
-ion know what to put here dawg...
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>trecks</title>
+<style>
+  :root {
+    --coffee-bean: #7E5337ff;
+    --almond-cream: #EEDFCCff;
+    --toffee-brown: #9B6646ff;
+    --camel: #B7947Aff;
+    --taupe: #4F4034ff;
+    --text: #4F4034;
+    
+    --muted: #4F4034; 
+    --panel-bg: #FDF9F1;
+    --panel-border: var(--coffee-bean);
+    --panel-shadow: 5px 5px 0px var(--taupe); 
+  }
 
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 14px; 
+    
+    background-image: url('assets/background.gif');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-color: #1a1a1a;
+    
+    color: var(--text);
+    cursor: none;
+    padding: clamp(16px, 3vw, 40px);
+    padding-bottom: 120px;
+  }
+
+  a,
+  button { cursor: none; }
+
+  a { 
+    color: var(--coffee-bean); 
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  a:hover {
+    text-decoration: underline;
+    color: var(--toffee-brown);
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(260px, 340px) 1fr; 
+    gap: clamp(18px, 2.5vw, 32px);
+    max-width: 1550px; 
+    margin: 0 auto;
+  }
+
+  .panel {
+    background: var(--panel-bg);
+    border: 2px solid var(--panel-border);
+    border-radius: 0; 
+    box-shadow: var(--panel-shadow); 
+    padding: 15px;
+  }
+
+  .panel-heading {
+    display: block;
+    background: var(--camel);
+    color: #ffffff;
+    font-family: "Courier New", Courier, monospace;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 14px;
+    padding: 5px 10px;
+    border: 1px dashed var(--taupe);
+    border-radius: 0;
+    margin: -15px -15px 15px -15px; 
+  }
+
+  /* ---------- sidebar ---------- */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .wordmark {
+    background: var(--almond-cream);
+    color: var(--taupe);
+    font-family: KittenPaws;
+    font-weight: 900;
+    font-size: 2rem;
+    letter-spacing: 0.02em;
+    text-align: center;
+    padding: 14px;
+    border: 2px solid var(--panel-border);
+    border-radius: 0;
+    box-shadow: var(--panel-shadow);
+  }
+
+  .mini-profile {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-family: KittenPaws
+  }
+
+  .mini-avatar {
+    width: 65px;
+    height: 65px;
+    border-radius: 0; /* Classic square avatar */
+    border: 2px solid var(--taupe);
+    flex: 0 0 auto;
+    background: var(--camel) center/cover no-repeat;
+    background-image: url('assets/trex.png');
+  }
+
+  .mini-profile-info .name {
+    font-weight: 800;
+    font-size: 22px;
+  }
+
+  .mini-profile-info .tags {
+    color: var(--muted);
+    font-size: 18px;
+    margin-top: 4px;
+  }
+
+  .profile-decorations {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--camel);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .profile-decorations img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .profile-decorations .catboy-blinkie {
+    grid-column: 1 / -1;
+  }
+
+  .nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .nav a {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text);
+    background: var(--almond-cream);
+    border: 1px solid var(--taupe);
+    border-radius: 0;
+    padding: 8px 4px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .nav a:hover {
+    background: var(--coffee-bean);
+    color: #ffffff;
+    text-decoration: underline;
+  }
+
+  .nav a.current {
+    background: var(--camel);
+    color: #ffffff;
+    border-color: var(--coffee-bean);
+  }
+
+  .nav a.wide {
+    grid-column: 1 / -1;
+  }
+
+  /* ---------- main content ---------- */
+  .main {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 2vw, 28px);
+  }
+
+  .banner {
+  width: 100%;
+  aspect-ratio: 5 / 1.2;
+  border-radius: 0;
+
+  background-image: url('assets/banner.jpg');
+  background-position: center center;
+  background-repeat: repeat;
+  background-size: 200px auto;
+  
+  border: 2px solid var(--taupe);
+  outline: 2px dashed var(--coffee-bean);
+  outline-offset: -8px;
+  box-shadow: var(--panel-shadow);
+  }
+
+  .intro h1 {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 24px;
+    margin: 0 0 10px;
+    color: var(--taupe);
+  }
+
+  .intro p {
+    line-height: 1.6;
+    color: var(--text);
+    margin: 0 0 12px;
+  }
+
+  .intro p:last-child { margin-bottom: 0; }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(16px, 2vw, 28px);
+  }
+
+  .grid-2.thirds {
+    grid-template-columns: 1.2fr 1.2fr 0.8fr;
+  }
+
+  dl.kv {
+    margin: 0;
+  }
+
+  dl.kv .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--camel);
+  }
+
+  dl.kv .row:last-child { border-bottom: none; }
+
+  dl.kv dt {
+    font-weight: 700;
+    color: var(--taupe);
+  }
+
+  dl.kv dd {
+    margin: 0;
+    text-align: right;
+    color: var(--muted);
+  }
+
+  .update-list .entry {
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--camel);
+  }
+
+  .update-list .entry:last-child { border-bottom: none; }
+
+  .update-list .date {
+    font-weight: 800;
+    color: var(--coffee-bean);
+    margin-right: 6px;
+  }
+
+  .btn {
+    display: inline-block;
+    margin-top: 14px;
+    text-decoration: none;
+    color: var(--text);
+    border: 2px outset var(--camel);
+    background: var(--almond-cream);
+    border-radius: 0;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .btn:hover { 
+    background: var(--camel); 
+    color: #fff; 
+  }
+
+  .working-on ul {
+    list-style: square; 
+    margin: 0 0 0 20px;
+    padding: 0;
+  }
+
+  .working-on li {
+    padding: 4px 0;
+    color: var(--text);
+  }
+
+  .working-on li::before {
+    display: none; 
+  }
+
+  .quick-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .quick-links a {
+    text-decoration: underline;
+    font-weight: bold;
+  }
+
+  .square-photo {
+    aspect-ratio: 1;
+    border-radius: 0;
+    border: 2px solid var(--taupe);
+    background: var(--camel) center/cover no-repeat;
+    align-self: stretch;
+  }
+
+  footer {
+    text-align: center;
+    color: var(--taupe);
+    font-size: 10px;
+    font-family: "Courier New", Courier, monospace;
+    padding: 24px 0 0;
+  }
+
+  /* ---------- music player ---------- */
+  .music-player {
+    position: fixed;
+    right: clamp(16px, 3vw, 40px);
+    bottom: clamp(16px, 3vw, 40px);
+    width: clamp(190px, 18vw, 280px);
+    padding: clamp(10px, 1.2vw, 16px);
+    display: flex;
+    align-items: center;
+    gap: clamp(10px, 1.2vw, 16px);
+    
+    color: var(--text);
+    background: var(--panel-bg);
+    border: 2px solid var(--taupe);
+    border-radius: 0;
+    box-shadow: 4px 4px 0px var(--taupe);
+    z-index: 5;
+  }
+
+  .record {
+    flex: 0 0 clamp(45px, 5vw, 60px);
+    width: clamp(45px, 5vw, 60px);
+    aspect-ratio: 1;
+    border-radius: 0; 
+    background: #171311 center/cover no-repeat;
+    background-image: url('assets/miro.png');
+    border: 2px solid var(--taupe);
+  }
+
+  .music-player.is-playing .record {
+    border-color: var(--coffee-bean);
+  }
+
+  .track-info { min-width: 0; flex: 1; }
+
+  .track-title, .track-artist {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .track-title { font-size: 14px; font-weight: bold; }
+  .track-artist { margin-top: 2px; color: var(--muted); font-size: 12px; }
+
+  .play-button {
+    flex: 0 0 clamp(24px, 3vw, 32px);
+    width: clamp(24px, 3vw, 32px);
+    aspect-ratio: 1;
+    padding: 0;
+    border: 2px outset var(--camel);
+    border-radius: 0;
+    color: var(--text);
+    background: var(--almond-cream);
+    cursor: none;
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .play-button:hover { 
+    background: var(--camel); 
+    color: #fff;
+  }
+
+  .custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 30;
+    width: 48px;
+    height: 48px;
+    background: url('assets/paw_idle.png') center/contain no-repeat;
+    pointer-events: none;
+    transform: translate(-12%, -12%);
+  }
+
+  .custom-cursor.is-hovering { background-image: url('assets/paw_interact.png'); }
+
+  .entry-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: grid;
+    place-items: center;
+    background: var(--panel-bg);
+    cursor: none;
+    transition: opacity 0ms ease, visibility 0ms ease;
+  }
+
+  .entry-screen.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .entry-prompt {
+    margin: 0;
+    color: var(--coffee-bean);
+    font-family: "Courier New", Courier, monospace;
+    font-size: clamp(20px, 2.4vw, 32px);
+    font-weight: 800;
+    text-decoration: underline;
+  }
+
+  .hvr-retro-shadow {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--almond-cream, #EEDFCC);
+    color: var(--taupe, #4F4034);
+    border: 2px solid var(--taupe, #4F4034);
+    font-family: Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 11px;
+    text-decoration: none;
+    box-shadow: 0px 0px 0px var(--taupe, #4F4034);
+  }
+
+  .hvr-retro-shadow:hover {
+    box-shadow: 4px 4px 0px var(--taupe, #4F4034);
+    transform: translate(-2px, -2px);
+  }
+
+  .hvr-retro-shadow:active {
+    box-shadow: inset 3px 3px 0px rgba(0, 0, 0, 0.35);
+    transform: translate(2px, 2px);
+  }
+
+  @media (pointer: coarse) {
+    body { cursor: auto; }
+    .custom-cursor { display: none; }
+    a,
+    button { cursor: pointer; }
+    .play-button { cursor: pointer; }
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    .grid-2, .grid-2.thirds { grid-template-columns: 1fr; }
+    .nav { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 480px) {
+    .music-player { right: 12px; bottom: 12px; width: min(220px, calc(100vw - 56px)); }
+    .nav { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @font-face {
+    font-family: KittenPaws;
+    src: url(assets/KittenPaws-Regular.ttf);
+  }
+</style>
+</head>
+<body>
+
+  <div class="custom-cursor" aria-hidden="true"></div>
+
+  <div class="entry-screen" role="button" tabindex="0" aria-label="Click to enter and play music">
+    <p class="entry-prompt">[ ENTER ]</p>
+  </div>
+
+  <div class="layout">
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar">
+      <div class="wordmark">trecks</div>
+
+      <div class="panel">
+        <div class="mini-profile">
+          <div class="mini-avatar"></div>
+          <div class="mini-profile-info">
+            <div class="name">trecks 😼</div>
+            <div class="tags">he/him &middot; dev &middot; UK</div>
+          </div>
+        </div>
+        <div class="profile-decorations" aria-label="stamps and blinkies">
+          <img src="assets/fuckyesimgirly.gif" alt="fuck yes im girly stamp">
+          <img src="assets/gay.png" alt="gay stamp">
+          <img class="catboy-blinkie" src="assets/catboy.gif" alt="catboy rights blinkie">
+        </div>
+      </div>
+
+      <nav class="panel nav">
+        <a href="#" class="current hvr-retro-shadow">home</a>
+        <a href="#about" class="hvr-retro-shadow">about me</a>
+        <a href="#moodboards" class="hvr-retro-shadow">moodboards</a>
+        <a href="#media" class="hvr-retro-shadow">fav media</a>
+        <a href="#music" class="hvr-retro-shadow">music</a>
+        <a href="#art" class="hvr-retro-shadow">art</a>
+        <a href="#projects" class="hvr-retro-shadow">projects</a>
+        <a href="#skills" class="hvr-retro-shadow">my skills 😼</a>
+        <a href="#socials" class="hvr-retro-shadow">my socials</a>
+        <a href="#guestbook" class="hvr-retro-shadow">guestbook</a>
+        <a href="#contact" class="wide hvr-retro-shadow">contact me!!</a>
+      </nav>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main">
+
+      <div class="banner" role="img"> </div>
+
+      <section class="panel intro">
+        <h1>im trecks ig!!</h1>
+        <p>this is my corner of the internet, where I dump my art, half finished projects and whatever else im doing when i bother updating the site/p>
+        <p>feel free to rip anything from the site and pretty please sign the guestbook </p>
+      </section>
+
+      <div class="grid-2">
+        <section class="panel">
+          <div class="panel-heading">Latest update</div>
+          <div class="update-list">
+            <div class="entry"><span class="date">24/08/2026</span> - website is now made!!!!</div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">Status</div>
+          <dl class="kv">
+            <div class="row"><dt>Watching</dt><dd>tires and chainsmoker cat</dd></div>
+            <div class="row"><dt>Listening</dt><dd>miro - Berlioz</dd></div>
+            <div class="row"><dt>Reading</dt><dd>ybc</dd></div>
+          </dl>
+        </section>
+      </div>
+
+      <div class="grid-2 thirds">
+        <section class="panel working-on">
+          <div class="panel-heading">Working on</div>
+          <ul>
+            <li>actually drawing again..</li>
+            <li>new pages</li>
+            <li>maybe a helpful links page</li>
+            <li>OUTFIT OF THE DAYYY</li>
+          </ul>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">Quick links</div>
+          <div class="quick-links">
+            <a href="mailto:trex18010@gmail.com">email</a>
+            <a href="https://github.com/trecks2trecks">github</a>
+            <a href="#guestbook">guestbook</a>
+          </div>
+        </section>
+
+        <div class="square-photo" role="img" aria-label="Featured image" style="background-image: url(assets/me1.jpg);border: 2px solid var(--taupe);outline: 2px dashed var(--coffee-bean);outline-offset: -8px;box-shadow: var(--panel-shadow);"></div>
+      </div>
+
+      <footer><div class="panel-heading">&copy; 2026 trecks - built by uhh.. me?</div></footer>
+    </main>
+
+  </div>
+
+  <!-- ================= MUSIC PLAYER ================= -->
+  <aside class="music-player" aria-label="Music player">
+    <div class="record" aria-hidden="true"></div>
+    <div class="track-info">
+      <div class="track-title">miro</div>
+      <div class="track-artist">Berlioz</div>
+    </div>
+    <button class="play-button" type="button" aria-label="Play miro" aria-pressed="false">&#9654;</button>
+    <audio class="audio" src="assets/miro.mp3" preload="auto"></audio>
+  </aside>
+
+  <script>
+    const customCursor = document.querySelector('.custom-cursor');
+    const player = document.querySelector('.music-player');
+    const audio = document.querySelector('.audio');
+    const playButton = document.querySelector('.play-button');
+    const entryScreen = document.querySelector('.entry-screen');
+
+    document.addEventListener('pointermove', (event) => {
+      customCursor.style.left = `${event.clientX}px`;
+      customCursor.style.top = `${event.clientY}px`;
+    });
+
+    document.querySelectorAll('a, button').forEach((interactiveElement) => {
+      interactiveElement.addEventListener('pointerenter', () => customCursor.classList.add('is-hovering'));
+      interactiveElement.addEventListener('pointerleave', () => customCursor.classList.remove('is-hovering'));
+    });
+
+    const enterPage = async () => {
+      entryScreen.classList.add('is-hidden');
+      try {
+        await audio.play();
+      } catch (error) {
+        entryScreen.classList.remove('is-hidden');
+      }
+    };
+
+    entryScreen.addEventListener('click', enterPage);
+    entryScreen.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') enterPage();
+    });
+
+    playButton.addEventListener('click', async () => {
+      if (audio.paused) {
+        await audio.play();
+      } else {
+        audio.pause();
+      }
+    });
+
+    audio.addEventListener('play', () => {
+      player.classList.add('is-playing');
+      playButton.textContent = '\u275A\u275A';
+      playButton.setAttribute('aria-label', 'Pause miro');
+      playButton.setAttribute('aria-pressed', 'true');
+    });
+
+    audio.addEventListener('pause', () => {
+      player.classList.remove('is-playing');
+      playButton.textContent = '\u25B6';
+      playButton.setAttribute('aria-label', 'Play miro');
+      playButton.setAttribute('aria-pressed', 'false');
+    });
+  </script>
+
+</body>
+</html>
